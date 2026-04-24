@@ -190,6 +190,6 @@ For more detail:
 [AGPL-3.0](./LICENSE)
 
 Unless otherwise noted, the first-party source code and documentation in this repository are copyright
-Cagatay Demirbas. 
+Cagatay Demirbas.
 
 Bundled third-party components may retain their own upstream notices where required.

@@ -1,0 +1,9 @@
+Copyright (C) 2026 Cagatay Demirbas
+
+Unless otherwise noted, the first-party Rust source code in this `src/` tree is
+copyright Cagatay Demirbas.
+
+The Qypha project is distributed under AGPL-3.0-only. See `../LICENSE`.
+
+Bundled or adapted third-party components outside this tree may retain their own
+upstream copyright and license notices where required.
