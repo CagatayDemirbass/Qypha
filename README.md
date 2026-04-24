@@ -44,7 +44,7 @@ If you downloaded a ZIP instead, extract it and open a terminal in the extracted
 Run:
 
 ```bash
-chmod +x ./setup.sh
+cd ~/Desktop/qypha
 ./setup.sh
 ```
 
