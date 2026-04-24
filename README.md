@@ -188,3 +188,5 @@ For more detail:
 ## License
 
 [AGPL-3.0](./LICENSE)
+
+Bundled third-party components may retain their own upstream notices where required. See [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
