@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "progressExample": {
+      "command": "node",
+      "args": [
+        "./servers/progressExample.mjs"
+      ]
+    }
+  }
+}

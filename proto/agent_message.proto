@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package qypha;
+
+// ─── Agent Identity ───
+
+message AgentIdentity {
+    string did = 1;                    // did:nxf:<hash>
+    string display_name = 2;           // "Finance Agent"
+    string role = 3;                   // "data_scientist", "hr", "finance"
+    string location = 4;              // "TR", "UK", "DE"
+    bytes  public_key = 5;            // Ed25519 public key
+    bytes  certificate = 6;           // X.509 certificate (DER)
+    uint64 enrolled_at = 7;           // Unix timestamp
+}
+
+// ─── Message Types ───
+
+enum MessageType {
+    MSG_UNKNOWN          = 0;
+    TASK_REQUEST         = 1;
+    TASK_RESPONSE        = 2;
+    ARTIFACT_SHARE       = 3;
+    STATUS_UPDATE        = 4;
+    HEARTBEAT            = 5;
+    EXEC_COMMAND         = 6;
+    HUMAN_ESCALATION     = 7;
+    SHADOW_MSG           = 8;         // CEO/Executive only
+    ACK                  = 9;
+    NACK                 = 10;
+    PEER_DISCOVERY       = 11;
+    KEY_EXCHANGE         = 12;
+}
+
+// ─── Core Message ───
+
+message AgentMessage {
+    string      message_id    = 1;    // UUID v4
+    string      sender_did    = 2;    // did:nxf:<hash>
+    string      recipient_did = 3;    // did:nxf:<hash>
+    MessageType msg_type      = 4;
+    uint64      timestamp     = 5;    // Unix epoch ms
+    uint64      nonce         = 6;    // Monotonic counter (replay protection)
+    bytes       payload       = 7;    // Encrypted content
+    bytes       signature     = 8;    // Ed25519 signature over [1-7]
+    map<string, string> metadata = 9; // Optional key-value pairs
+    bool        is_shadow     = 10;   // Shadow mode flag
+}
+
+// ─── Task Payloads ───
+
+message TaskRequest {
+    string task_id = 1;
+    string description = 2;           // Natural language task description
+    string requester_did = 3;
+    string assignee_did = 4;
+    Priority priority = 5;
+    repeated string required_artifacts = 6;  // artifact_ids needed
+    map<string, string> parameters = 7;
+    uint64 deadline = 8;              // Unix timestamp
+}
+
+enum Priority {
+    PRIORITY_LOW    = 0;
+    PRIORITY_NORMAL = 1;
+    PRIORITY_HIGH   = 2;
+    PRIORITY_URGENT = 3;
+}
+
+message TaskResponse {
+    string task_id = 1;
+    TaskStatus status = 2;
+    string result_artifact_id = 3;    // Output artifact if any
+    string message = 4;
+    uint32 progress_percent = 5;
+}
+
+enum TaskStatus {
+    TASK_PENDING     = 0;
+    TASK_IN_PROGRESS = 1;
+    TASK_COMPLETED   = 2;
+    TASK_FAILED      = 3;
+    TASK_CANCELLED   = 4;
+    TASK_NEEDS_APPROVAL = 5;
+}
+
+// ─── Artifact Transfer ───
+
+message ArtifactManifest {
+    string artifact_id = 1;           // art_<uuid>
+    string sender_did = 2;
+    string recipient_did = 3;
+    uint64 created_at = 4;
+    uint64 expires_at = 5;
+    EncryptionInfo encryption = 6;
+    repeated FileEntry files = 7;
+    AccessPolicy policy = 8;
+    bytes  signature = 9;             // Ed25519 over [1-8]
+    uint64 total_size_bytes = 10;
+}
+
+message EncryptionInfo {
+    string algorithm = 1;             // "AES-256-GCM"
+    string key_wrap = 2;             // "X25519"
+    bytes  wrapped_key = 3;          // Encrypted symmetric key
+    bytes  nonce = 4;                // GCM nonce
+}
+
+message FileEntry {
+    string path = 1;                  // Relative path within artifact
+    uint64 size_bytes = 2;
+    bytes  sha256_hash = 3;
+    string mime_type = 4;
+}
+
+message AccessPolicy {
+    uint32 max_access_count = 1;      // 0 = unlimited
+    repeated string allowed_roles = 2;
+    repeated string allowed_dids = 3;
+    bool   read_only = 4;
+    uint64 valid_until = 5;           // Unix timestamp
+    string data_classification = 6;   // "public", "internal", "confidential", "restricted"
+}
+
+// ─── Heartbeat ───
+
+message Heartbeat {
+    string agent_did = 1;
+    uint64 timestamp = 2;
+    AgentStatus status = 3;
+    uint32 active_tasks = 4;
+    float  cpu_usage_percent = 5;
+    float  memory_usage_percent = 6;
+    string os_type = 7;               // "windows", "macos", "linux"
+}
+
+enum AgentStatus {
+    AGENT_ONLINE  = 0;
+    AGENT_BUSY    = 1;
+    AGENT_IDLE    = 2;
+    AGENT_ERROR   = 3;
+    AGENT_OFFLINE = 4;
+}
+
+// ─── Shadow Mode ───
+
+message ShadowEnvelope {
+    bytes  ephemeral_public_key = 1;  // One-time DH key
+    bytes  encrypted_message = 2;     // Double-encrypted payload
+    bytes  hmac = 3;                  // HMAC-SHA256 for integrity
+    uint64 cover_sequence = 4;        // Cover traffic sequence number
+}

@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "openclaw/extension-api": ["./src/extensionAPI.ts"],
+      "openclaw/plugin-sdk": ["./src/plugin-sdk/index.ts"],
+      "openclaw/plugin-sdk/*": ["./src/plugin-sdk/*.ts"],
+      "openclaw/plugin-sdk/provider-auth": ["./bridge/stubs/provider-auth.ts"],
+      "openclaw/plugin-sdk/account-id": ["./src/plugin-sdk/account-id.ts"]
+    }
+  },
+  "include": [
+    "bridge/**/*.ts",
+    "extensions/anthropic/**/*.ts",
+    "extensions/google/**/*.ts",
+    "extensions/ollama/**/*.ts",
+    "extensions/openai/**/*.ts",
+    "src/agents/**/*.ts",
+    "src/auto-reply/**/*.ts",
+    "src/cli/**/*.ts",
+    "src/config/**/*.ts",
+    "src/hooks/**/*.ts",
+    "src/image-generation/**/*.ts",
+    "src/infra/**/*.ts",
+    "src/logging/**/*.ts",
+    "src/media-understanding/**/*.ts",
+    "src/plugin-sdk/**/*.ts",
+    "src/plugins/**/*.ts",
+    "src/runtime.ts",
+    "src/secrets/**/*.ts",
+    "src/tts/**/*.ts",
+    "src/utils/**/*.ts",
+    "src/wizard/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

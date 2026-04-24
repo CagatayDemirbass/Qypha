@@ -1,0 +1,44 @@
+.DS_Store
+
+# Rust build outputs
+/target/
+**/target/
+
+# Node / frontend build outputs
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vite/
+**/.vite/
+
+# Tauri / bundle artifacts
+*.dmg
+*.app
+*.AppImage
+*.msi
+*.exe
+*.deb
+*.rpm
+*.nsis.zip
+
+# Local runtime / generated state
+/agent-configs/
+.tmp/
+.artifacts/
+proptest-regressions/
+/embedded_runtime/internal/runtime/python/.downloads/
+/embedded_runtime/internal/runtime/python/*/python/
+/embedded_runtime/internal/runtime/git/.downloads/
+/embedded_runtime/internal/runtime/git/*/micromamba/
+/embedded_runtime/internal/runtime/git/*/pkgs/
+/embedded_runtime/internal/runtime/git/*/prefix/
+/embedded_runtime/internal/runtime/git/*/mamba-root/
+/embedded_runtime/internal/bundled-mcp-plugins/.runtime-state/
+/embedded_runtime/internal/bundled-mcp-plugins/fetch-server/vendor/site-packages/
+/embedded_runtime/internal/bundled-mcp-plugins/git-server/vendor/site-packages/
+/embedded_runtime/internal/bundled-mcp-plugins/playwright-mcp/vendor/node_modules/
+/embedded_runtime/internal/bundled-mcp-plugins/playwright-mcp/vendor/ms-playwright/
+
+# Editor / local tool noise
+.claude/

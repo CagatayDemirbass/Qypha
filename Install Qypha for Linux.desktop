@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Install Qypha for Linux
+Comment=Run the Qypha Linux setup wizard
+Exec=/bin/bash -lc 'desktop_file="$1"; script_dir="$(dirname "$desktop_file")"; exec "$script_dir/Install Qypha for Linux.sh"' dummy %k
+Icon=utilities-terminal
+Terminal=true
+Categories=Utility;Development;
+StartupNotify=true
+Path=/tmp

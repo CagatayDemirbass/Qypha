@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Qypha",
+  "version": "0.1.0",
+  "identifier": "com.qypha.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev:web",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "cd ../.. && cargo build --release && cd apps/qypha-desktop && npm run build:web",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Qypha",
+        "width": 1420,
+        "height": 920,
+        "minWidth": 1120,
+        "minHeight": 700,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' ipc: http://localhost:1420 ws://localhost:1420"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "resources": [
+      "../../../target/release/qypha"
+    ],
+    "shortDescription": "Qypha - Secure Multi-Agent Communication",
+    "longDescription": "Qypha is an enterprise-grade secure communication platform with 7-layer encryption, post-quantum cryptography, and zero-trace ghost mode.",
+    "copyright": "© 2025 Qypha Team"
+  }
+}

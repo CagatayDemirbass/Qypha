@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "bundleProbe": {
+      "command": "node",
+      "args": [
+        "./servers/bundle-probe.mjs"
+      ],
+      "env": {
+        "BUNDLE_PROBE_TEXT": "FROM-BUNDLE"
+      }
+    }
+  }
+}

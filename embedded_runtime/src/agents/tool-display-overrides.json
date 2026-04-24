@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "tools": {
+    "exec": {
+      "emoji": "🛠️",
+      "title": "Exec",
+      "detailKeys": ["command"]
+    },
+    "tool_call": {
+      "emoji": "🧰",
+      "title": "Tool Call",
+      "detailKeys": []
+    },
+    "tool_call_update": {
+      "emoji": "🧰",
+      "title": "Tool Call",
+      "detailKeys": []
+    },
+    "session_status": {
+      "emoji": "📊",
+      "title": "Session Status",
+      "detailKeys": ["sessionKey", "model"]
+    },
+    "sessions_list": {
+      "emoji": "🗂️",
+      "title": "Sessions",
+      "detailKeys": ["kinds", "limit", "activeMinutes", "messageLimit"]
+    },
+    "sessions_send": {
+      "emoji": "📨",
+      "title": "Session Send",
+      "detailKeys": ["label", "sessionKey", "agentId", "timeoutSeconds"]
+    },
+    "sessions_history": {
+      "emoji": "🧾",
+      "title": "Session History",
+      "detailKeys": ["sessionKey", "limit", "includeTools"]
+    },
+    "sessions_spawn": {
+      "emoji": "🧑‍🔧",
+      "title": "Sub-agent",
+      "detailKeys": [
+        "label",
+        "task",
+        "agentId",
+        "model",
+        "thinking",
+        "runTimeoutSeconds",
+        "cleanup"
+      ]
+    },
+    "subagents": {
+      "emoji": "🤖",
+      "title": "Subagents",
+      "actions": {
+        "list": {
+          "label": "list",
+          "detailKeys": ["recentMinutes"]
+        },
+        "kill": {
+          "label": "kill",
+          "detailKeys": ["target"]
+        },
+        "steer": {
+          "label": "steer",
+          "detailKeys": ["target"]
+        }
+      }
+    },
+    "agents_list": {
+      "emoji": "🧭",
+      "title": "Agents",
+      "detailKeys": []
+    },
+    "memory_search": {
+      "emoji": "🧠",
+      "title": "Memory Search",
+      "detailKeys": ["query"]
+    },
+    "memory_get": {
+      "emoji": "📓",
+      "title": "Memory Get",
+      "detailKeys": ["path", "from", "lines"]
+    },
+    "web_search": {
+      "emoji": "🔎",
+      "title": "Web Search",
+      "detailKeys": ["query", "count"]
+    },
+    "web_fetch": {
+      "emoji": "📄",
+      "title": "Web Fetch",
+      "detailKeys": ["url", "extractMode", "maxChars"]
+    },
+    "message": {
+      "emoji": "✉️",
+      "title": "Message",
+      "actions": {
+        "send": {
+          "label": "send",
+          "detailKeys": ["provider", "to", "media", "replyTo", "threadId"]
+        },
+        "poll": {
+          "label": "poll",
+          "detailKeys": ["provider", "to", "pollQuestion"]
+        },
+        "react": {
+          "label": "react",
+          "detailKeys": ["provider", "to", "messageId", "emoji", "remove"]
+        },
+        "reactions": {
+          "label": "reactions",
+          "detailKeys": ["provider", "to", "messageId", "limit"]
+        },
+        "read": {
+          "label": "read",
+          "detailKeys": ["provider", "to", "limit"]
+        },
+        "edit": {
+          "label": "edit",
+          "detailKeys": ["provider", "to", "messageId"]
+        },
+        "delete": {
+          "label": "delete",
+          "detailKeys": ["provider", "to", "messageId"]
+        },
+        "pin": {
+          "label": "pin",
+          "detailKeys": ["provider", "to", "messageId"]
+        },
+        "unpin": {
+          "label": "unpin",
+          "detailKeys": ["provider", "to", "messageId"]
+        },
+        "list-pins": {
+          "label": "list pins",
+          "detailKeys": ["provider", "to"]
+        },
+        "permissions": {
+          "label": "permissions",
+          "detailKeys": ["provider", "channelId", "to"]
+        },
+        "thread-create": {
+          "label": "thread create",
+          "detailKeys": ["provider", "channelId", "threadName"]
+        },
+        "thread-list": {
+          "label": "thread list",
+          "detailKeys": ["provider", "guildId", "channelId"]
+        },
+        "thread-reply": {
+          "label": "thread reply",
+          "detailKeys": ["provider", "channelId", "messageId"]
+        },
+        "search": {
+          "label": "search",
+          "detailKeys": ["provider", "guildId", "query"]
+        },
+        "sticker": {
+          "label": "sticker",
+          "detailKeys": ["provider", "to", "stickerId"]
+        },
+        "member-info": {
+          "label": "member",
+          "detailKeys": ["provider", "guildId", "userId"]
+        },
+        "role-info": {
+          "label": "roles",
+          "detailKeys": ["provider", "guildId"]
+        },
+        "emoji-list": {
+          "label": "emoji list",
+          "detailKeys": ["provider", "guildId"]
+        },
+        "emoji-upload": {
+          "label": "emoji upload",
+          "detailKeys": ["provider", "guildId", "emojiName"]
+        },
+        "sticker-upload": {
+          "label": "sticker upload",
+          "detailKeys": ["provider", "guildId", "stickerName"]
+        },
+        "role-add": {
+          "label": "role add",
+          "detailKeys": ["provider", "guildId", "userId", "roleId"]
+        },
+        "role-remove": {
+          "label": "role remove",
+          "detailKeys": ["provider", "guildId", "userId", "roleId"]
+        },
+        "channel-info": {
+          "label": "channel",
+          "detailKeys": ["provider", "channelId"]
+        },
+        "channel-list": {
+          "label": "channels",
+          "detailKeys": ["provider", "guildId"]
+        },
+        "voice-status": {
+          "label": "voice",
+          "detailKeys": ["provider", "guildId", "userId"]
+        },
+        "event-list": {
+          "label": "events",
+          "detailKeys": ["provider", "guildId"]
+        },
+        "event-create": {
+          "label": "event create",
+          "detailKeys": ["provider", "guildId", "eventName"]
+        },
+        "timeout": {
+          "label": "timeout",
+          "detailKeys": ["provider", "guildId", "userId"]
+        },
+        "kick": {
+          "label": "kick",
+          "detailKeys": ["provider", "guildId", "userId"]
+        },
+        "ban": {
+          "label": "ban",
+          "detailKeys": ["provider", "guildId", "userId"]
+        }
+      }
+    },
+    "apply_patch": {
+      "emoji": "🩹",
+      "title": "Apply Patch",
+      "detailKeys": []
+    },
+    "document_generate": {
+      "emoji": "📄",
+      "title": "Document Generate",
+      "detailKeys": ["format", "path", "title", "overwrite"]
+    },
+    "grep": {
+      "emoji": "🔎",
+      "title": "Grep",
+      "detailKeys": ["pattern", "path", "glob", "maxMatches"]
+    },
+    "find": {
+      "emoji": "🧭",
+      "title": "Find",
+      "detailKeys": ["glob", "path", "type", "limit"]
+    },
+    "ls": {
+      "emoji": "📂",
+      "title": "List",
+      "detailKeys": ["path", "recursive", "all", "limit"]
+    },
+    "qypha_peers": {
+      "emoji": "🔗",
+      "title": "Qypha Peers",
+      "detailKeys": []
+    },
+    "qypha_groups": {
+      "emoji": "👥",
+      "title": "Qypha Groups",
+      "detailKeys": []
+    },
+    "qypha_whoami": {
+      "emoji": "🪪",
+      "title": "Qypha WhoAmI",
+      "detailKeys": []
+    },
+    "qypha_send": {
+      "emoji": "📣",
+      "title": "Qypha Send",
+      "detailKeys": ["message"]
+    },
+    "qypha_reply": {
+      "emoji": "↩️",
+      "title": "Qypha Reply",
+      "detailKeys": ["message"]
+    },
+    "qypha_sendto": {
+      "emoji": "📨",
+      "title": "Qypha SendTo",
+      "detailKeys": ["targetType", "target", "message"]
+    },
+    "qypha_reply_transfer": {
+      "emoji": "📤",
+      "title": "Qypha ReplyTransfer",
+      "detailKeys": ["path"]
+    },
+    "qypha_transfer": {
+      "emoji": "📦",
+      "title": "Qypha Transfer",
+      "detailKeys": ["targetType", "target", "path"]
+    },
+    "qypha_disconnect": {
+      "emoji": "🔌",
+      "title": "Qypha Disconnect",
+      "detailKeys": ["target"]
+    },
+    "qypha_receive_dir": {
+      "emoji": "📥",
+      "title": "Qypha ReceiveDir",
+      "detailKeys": ["targetType", "target", "path", "reset"]
+    },
+    "qypha_accept": {
+      "emoji": "✅",
+      "title": "Qypha Accept",
+      "detailKeys": ["selector"]
+    },
+    "qypha_accept_always": {
+      "emoji": "🟢",
+      "title": "Qypha AcceptAlways",
+      "detailKeys": ["target"]
+    },
+    "qypha_accept_ask": {
+      "emoji": "🟡",
+      "title": "Qypha AcceptAsk",
+      "detailKeys": ["target"]
+    },
+    "qypha_reject": {
+      "emoji": "⛔",
+      "title": "Qypha Reject",
+      "detailKeys": ["selector"]
+    },
+    "qypha_invite": {
+      "emoji": "🎟️",
+      "title": "Qypha Invite",
+      "detailKeys": []
+    },
+    "qypha_group_normal": {
+      "emoji": "🧩",
+      "title": "Qypha GroupNormal",
+      "detailKeys": ["name"]
+    },
+    "qypha_invite_group": {
+      "emoji": "🧷",
+      "title": "Qypha InviteGroup",
+      "detailKeys": ["groupId"]
+    },
+    "qypha_group_anon": {
+      "emoji": "👻",
+      "title": "Qypha GroupAnon",
+      "detailKeys": ["name"]
+    },
+    "qypha_invite_anon": {
+      "emoji": "🕶️",
+      "title": "Qypha InviteAnon",
+      "detailKeys": ["ownerSpecialId"]
+    },
+    "qypha_invite_handshake": {
+      "emoji": "🤝",
+      "title": "Qypha InviteHandshake",
+      "detailKeys": ["memberDid"]
+    },
+    "qypha_invite_handshake_group": {
+      "emoji": "🤝",
+      "title": "Qypha InviteHandshakeGroup",
+      "detailKeys": ["groupId", "memberDid"]
+    },
+    "qypha_block": {
+      "emoji": "🛡️",
+      "title": "Qypha Block",
+      "detailKeys": ["selector"]
+    },
+    "qypha_unblock": {
+      "emoji": "🔓",
+      "title": "Qypha Unblock",
+      "detailKeys": ["memberDid"]
+    },
+    "qypha_block_all_requests": {
+      "emoji": "🚫",
+      "title": "Qypha BlockAllRequests",
+      "detailKeys": []
+    },
+    "qypha_unblock_all_requests": {
+      "emoji": "🟢",
+      "title": "Qypha UnblockAllRequests",
+      "detailKeys": []
+    },
+    "qypha_connect": {
+      "emoji": "🔗",
+      "title": "Qypha Connect",
+      "detailKeys": ["code"]
+    },
+    "qypha_kick_group_member": {
+      "emoji": "🥾",
+      "title": "Qypha KickGroupMember",
+      "detailKeys": ["memberDid"]
+    },
+    "qypha_lock_group": {
+      "emoji": "🔒",
+      "title": "Qypha LockGroup",
+      "detailKeys": ["groupId"]
+    },
+    "qypha_unlock_group": {
+      "emoji": "🔓",
+      "title": "Qypha UnlockGroup",
+      "detailKeys": ["groupId"]
+    },
+    "qypha_leave_group": {
+      "emoji": "🚪",
+      "title": "Qypha LeaveGroup",
+      "detailKeys": ["groupId"]
+    },
+    "qypha_disband_group": {
+      "emoji": "🧨",
+      "title": "Qypha DisbandGroup",
+      "detailKeys": ["groupId"]
+    },
+    "qypha_quit": {
+      "emoji": "🛑",
+      "title": "Qypha Quit",
+      "detailKeys": []
+    }
+  }
+}

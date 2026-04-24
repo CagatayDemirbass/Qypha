@@ -1,0 +1,39 @@
+{
+  "plugins": [
+    {
+      "dir": "filesystem-server",
+      "enabled": true,
+      "runtime_kind": "repo"
+    },
+    {
+      "dir": "git-server",
+      "enabled": true,
+      "runtime_kind": "repo"
+    },
+    {
+      "dir": "fetch-server",
+      "enabled": true,
+      "runtime_kind": "document"
+    },
+    {
+      "dir": "playwright-mcp",
+      "enabled": true,
+      "runtime_kind": "browser"
+    },
+    {
+      "dir": "bundle-probe",
+      "enabled": false,
+      "runtime_kind": "test"
+    },
+    {
+      "dir": "progress-example",
+      "enabled": false,
+      "runtime_kind": "test"
+    },
+    {
+      "dir": "output-schema-example",
+      "enabled": false,
+      "runtime_kind": "test"
+    }
+  ]
+}

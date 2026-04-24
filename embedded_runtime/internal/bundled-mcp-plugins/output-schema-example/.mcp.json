@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "outputSchemaExample": {
+      "command": "node",
+      "args": [
+        "./servers/mcpServerOutputSchema.mjs"
+      ]
+    }
+  }
+}

@@ -1,0 +1,4 @@
+site-packages/
+.qypha-python-vendor.json
+!.gitignore
+!requirements-lock.txt

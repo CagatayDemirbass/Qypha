@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "node",
+      "args": [
+        "./servers/fetch-server-launcher.mjs"
+      ]
+    }
+  }
+}

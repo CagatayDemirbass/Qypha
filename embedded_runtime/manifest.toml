@@ -1,0 +1,119 @@
+snapshot_commit = "c541cde0f66e57531940311c8924d98e4941a9c6"
+reference_snapshot_root = "vendor/openclaw_snapshot"
+vendored_root = "embedded_runtime"
+bridge_root = "embedded_runtime/bridge"
+
+[rules]
+rewrite_openclaw_code = false
+qypha_owns_policy = true
+qypha_owns_sessions = true
+qypha_owns_identity = true
+qypha_owns_safe_ghost = true
+safe_mode_required_for_full_access_ai = true
+
+[[capability]]
+id = "provider"
+status = "intake_ready"
+notes = "Use OpenClaw provider catalog/runtime directly; only wrap with Qypha provider adapter contracts."
+upstream_paths = [
+  "src/plugins/types.ts",
+  "src/plugins/loader.ts",
+  "src/plugins/manifest-registry.ts",
+  "src/plugins/provider-catalog.ts",
+  "src/plugins/provider-catalog-metadata.ts",
+  "src/plugins/providers.ts",
+  "src/plugins/provider-runtime.ts",
+  "src/plugins/provider-runtime.runtime.ts",
+  "src/plugins/provider-discovery.ts",
+  "src/plugins/provider-validation.ts",
+  "src/plugins/provider-api-key-auth.ts",
+  "src/plugins/provider-ollama-setup.ts",
+  "src/plugin-sdk/provider-entry.ts",
+  "src/plugin-sdk/plugin-entry.ts",
+  "src/plugin-sdk/provider-models.ts",
+  "src/plugin-sdk/provider-stream.ts",
+  "src/plugin-sdk/provider-auth.ts",
+  "src/plugin-sdk/provider-catalog.ts",
+  "src/plugin-sdk/ollama-setup.ts",
+  "extensions/ollama/index.ts",
+  "extensions/openai/index.ts",
+  "extensions/anthropic/index.ts",
+  "extensions/google/index.ts",
+]
+
+[[capability]]
+id = "research"
+status = "intake_ready"
+notes = "Keep OpenClaw search-inspect-synthesize behavior 1:1."
+upstream_paths = [
+  "src/web-search/runtime.ts",
+  "src/plugins/web-search-providers.shared.ts",
+  "src/plugins/web-search-providers.runtime.ts",
+  "src/plugins/bundled-web-search-provider-ids.ts",
+  "src/bundled-web-search-registry.ts",
+  "extensions/duckduckgo/index.ts",
+  "extensions/brave/index.ts",
+  "extensions/exa/index.ts",
+  "extensions/tavily/index.ts",
+  "extensions/firecrawl/index.ts",
+  "extensions/google/src/gemini-web-search-provider.ts",
+]
+
+[[capability]]
+id = "browser"
+status = "intake_ready"
+notes = "Vendor the OpenClaw browser runtime, then put Qypha approval/policy/domain gates around it."
+upstream_paths = [
+  "src/browser/client.ts",
+  "src/browser/client-actions.ts",
+  "src/browser/pw-session.ts",
+  "src/browser/pw-tools-core.ts",
+  "src/browser/profiles.ts",
+  "src/browser/profile-capabilities.ts",
+  "src/browser/request-policy.ts",
+  "src/browser/navigation-guard.ts",
+  "src/browser/session-tab-registry.ts",
+  "src/node-host/invoke-browser.ts",
+  "src/plugins/setup-browser.ts",
+]
+
+[[capability]]
+id = "document"
+status = "intake_ready"
+notes = "PDF and technical document parsing stays OpenClaw-native."
+upstream_paths = [
+  "src/media/pdf-extract.ts",
+  "src/media/file-context.ts",
+  "src/media/input-files.ts",
+  "extensions/openai/media-understanding-provider.ts",
+  "extensions/anthropic/media-understanding-provider.ts",
+  "extensions/google/media-understanding-provider.ts",
+]
+
+[[capability]]
+id = "memory"
+status = "intake_ready"
+notes = "Keep memory source-linked, actor-scoped, and safe-mode governed."
+upstream_paths = [
+  "src/plugin-sdk/memory-core.ts",
+  "src/plugin-sdk/memory-lancedb.ts",
+  "extensions/memory-core/index.ts",
+  "extensions/memory-lancedb/index.ts",
+  "extensions/memory-lancedb/lancedb-runtime.ts",
+  "extensions/memory-lancedb/api.ts",
+  "src/hooks/bundled/session-memory/handler.ts",
+]
+
+[[capability]]
+id = "os"
+status = "intake_ready"
+notes = "Use OpenClaw openshell as the worker OS engine; Qypha remains the typed-operation and approval owner."
+upstream_paths = [
+  "extensions/openshell/index.ts",
+  "extensions/openshell/src/backend.ts",
+  "extensions/openshell/src/cli.ts",
+  "extensions/openshell/src/config.ts",
+  "extensions/openshell/src/fs-bridge.ts",
+  "extensions/openshell/src/remote-fs-bridge.ts",
+  "extensions/openshell/src/mirror.ts",
+]

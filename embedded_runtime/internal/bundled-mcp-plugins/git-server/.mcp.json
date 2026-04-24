@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "git": {
+      "command": "node",
+      "args": [
+        "./servers/git-server-launcher.mjs"
+      ]
+    }
+  }
+}
