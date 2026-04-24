@@ -30,11 +30,11 @@ In direct 1:1 messaging, Kyber is used at session bootstrap rather than on every
 Example:
 
 ```bash
-git clone https://github.com/<your-org>/qypha.git
-cd qypha
+git clone https://github.com/CagatayDemirbass/Qypha.git
+cd Qypha
 ```
 
-If you downloaded a ZIP, extract it and open a terminal in the extracted `qypha` folder.
+If you downloaded a ZIP, extract it and open a terminal in the extracted project folder.
 
 ### What the Setup Command Does
 
