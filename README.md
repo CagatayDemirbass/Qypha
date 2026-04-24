@@ -1,327 +1,144 @@
 # Qypha
 
-Qypha is a decentralized cryptographic network for humans and AI agents, designed for secure messaging, direct coordination, and privacy-first file transfer without relying on a central application server.
+Qypha is a decentralized cryptographic communication network for humans and AI agents.
 
-Enterprise cryptographic agent networking with a secure desktop app, a CLI daemon, and an embedded AI runtime.
+It is built for direct, privacy-first, peer-to-peer communication without relying on a central application server. Qypha includes a secure desktop app, a CLI daemon, and an embedded OpenClaw-based AI runtime.
 
-The name Qypha combines the cryptographic connotations of "cypher/cipher" with "hypha," the branching biological filaments that form decentralized mycelial networks. The result reflects both secure communication and resilient, many-directional connectivity.
+## What Qypha Includes
 
-Qypha combines:
+- Direct peer-to-peer messaging
+- End-to-end encrypted file transfer, including large transfers
+- DID-based identity and invite-based pairing
+- Internet and Tor networking modes
+- Human-to-human, human-to-agent, and agent-to-agent communication
+- An embedded AI runtime with OS access, network tools, and Qypha-native communication tools
+- Support for local and hosted agent providers, including Ollama, Claude, and OpenAI-based workflows
 
-- OpenClaw-style OS control, tool access, and messaging adapters
-- a Rust-first security model with hardened key handling
-- an enterprise agent network layer with privacy modes and secure artifact transfer
+There is no registration flow required to get started. You can download the project, choose an agent name, start a session, and use it directly.
 
-The AI agent capability layer is embedded directly from the OpenClaw runtime rather than attached as a separate sidecar. Qypha-specific network actions such as `/transfer` are exposed to agents as additional tools, and the desktop interface and tool surfaces are updated around that integrated model.
+## Security Model
 
-Current Qypha identities always carry Ed25519, X25519, and Kyber-1024 key material. Signed DID profiles and first-contact bootstrap require the Kyber public key so direct sessions start from a hybrid classical + post-quantum base.
+Qypha identities carry:
 
-In direct 1:1 messaging, Kyber is used at session bootstrap rather than on every message. After the hybrid X25519 + Kyber-1024 bootstrap completes, steady-state chat traffic runs over Double Ratchet with AEGIS-256.
+- Ed25519 for signing
+- X25519 for classical key exchange
+- Kyber-1024 for post-quantum key exchange
 
-## Quick Start
+Direct sessions start from a hybrid classical + post-quantum bootstrap. After session establishment, steady-state encrypted messaging runs over Double Ratchet with AEGIS-256.
 
-### If You Downloaded the Project from GitHub
+The embedded AI capability layer is integrated directly into Qypha rather than attached as a separate sidecar. Qypha-native actions such as secure messaging and file transfer are exposed to agents as tools inside the network.
 
-1. Download or clone the repository.
-2. Open a terminal in the project folder.
-3. Run the single setup command for your operating system.
-4. After setup finishes, launch the desktop app from the shortcut or from the terminal.
-
-Example:
+## Clone the Repository
 
 ```bash
 git clone https://github.com/CagatayDemirbass/Qypha.git
 cd Qypha
 ```
 
-If you downloaded a ZIP, extract it and open a terminal in the extracted project folder.
-
-### What the Setup Command Does
-
-The setup scripts:
-
-- install Rust, Node.js, `protoc`, and required build tooling
-- build the embedded worker and the core Qypha binaries
-- build the desktop app bundle
-- install the desktop app or create a desktop shortcut where supported
-- install terminal launchers such as `Qypha-desktop`
-
-Some generated runtime payloads are intentionally installed during setup rather than stored in Git. If they are removed later, running setup again restores them to the same paths.
-
-Note: if you run multiple agents on the same computer, each agent must use a different listen port. This only applies to agents running on the same machine. For example: `agent_1` on `9090`, `agent_2` on `9091`, and so on.
+If you downloaded a ZIP instead, extract it and open a terminal in the extracted project folder.
 
 ## Installation
 
-Naming guide:
+### macOS and Linux
 
-- `setup.sh` = terminal/CLI install engine for macOS and Linux
-- `setup_windows.ps1` = terminal/CLI install engine for Windows
-- `Install Qypha for macOS.command` = single-click macOS installer
-- `Install Qypha for Linux.desktop` / `Install Qypha for Linux.sh` = single-click Linux installer
-- `Install Qypha for Windows.cmd` = double-click Windows installer launcher
-- `Install Qypha for Windows.ps1` = PowerShell Windows setup wizard used by the launcher
-
-
-### macOS
-
-Install:
+Run:
 
 ```bash
 chmod +x ./setup.sh
 ./setup.sh
 ```
 
-Single-click setup:
+After setup, you can launch:
 
-- double-click `Install Qypha for macOS.command`
-- choose `Full install`, `CLI only`, `Clean rebuild`, or `Uninstall`
+- the desktop app with `Qypha-desktop`
+- the CLI with `Qypha launch`
 
-Clean rebuild:
+Optional:
 
-```bash
-./setup.sh --clean
-```
-
-Launch after setup:
-
-- double-click `Qypha.app` on the Desktop
-- or open `Qypha.app` from `Applications`
-- or run:
-
-```bash
-Qypha-desktop
-```
-
-CLI launch:
-
-```bash
-Qypha launch
-```
-
-Uninstall app and build outputs without deleting the repository:
-
-```bash
-./setup.sh --uninstall
-```
-
-Destroy all registered local agent data:
-
-```bash
-Qypha destroy-all --force
-```
-
-If an agent was launched as `root` or with `sudo`, run the cleanup as `sudo` too:
-
-```bash
-sudo Qypha destroy-all --force
-```
-
-### Linux
-
-Install:
-
-```bash
-chmod +x ./setup.sh
-./setup.sh
-```
-
-Single-click setup:
-
-- double-click `Install Qypha for Linux.desktop`
-- or run `bash ./Install Qypha for Linux.sh`
-- choose `Full install`, `CLI only`, `Clean rebuild`, or `Uninstall`
-
-Clean rebuild:
-
-```bash
-./setup.sh --clean
-```
-
-Launch after setup:
-
-- double-click the `Qypha.desktop` shortcut
-- or open `Qypha` from your app menu
-- or run:
-
-```bash
-Qypha-desktop
-```
-
-CLI launch:
-
-```bash
-Qypha launch
-```
-
-Uninstall app and build outputs without deleting the repository:
-
-```bash
-./setup.sh --uninstall
-```
+- clean rebuild: `./setup.sh --clean`
+- uninstall app/build outputs: `./setup.sh --uninstall`
+- install toolchains/build outputs without desktop app install: `./setup.sh --skip-desktop-install`
+- skip the desktop UI entirely: `./setup.sh --skip-desktop`
 
 ### Windows
 
-Open PowerShell as Administrator, then run:
+Open PowerShell in the project folder and run:
 
 ```powershell
-cd "C:\path\to\qypha"
 powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1
 ```
 
-Wizard-style setup:
+After setup, you can launch:
 
-- double-click `Install Qypha for Windows.cmd`
-- then click `Full Install`, `CLI Only`, `Build Without App Install`, or `Uninstall`
+- the desktop app with `Qypha-desktop`
+- the CLI with `Qypha launch`
 
-PowerShell fallback:
+Optional:
 
-- right-click `Install Qypha for Windows.ps1`
-- choose `Run with PowerShell`
+- uninstall app/build outputs: `powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -Uninstall`
+- install toolchains/build outputs without desktop app install: `powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -SkipDesktopInstall`
+- skip the desktop UI entirely: `powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -SkipDesktop`
 
-Launch after setup:
+### Single-Click Installers
 
-- double-click the `Qypha` desktop shortcut
-- or open `Qypha` from the Start Menu
-- or run:
+The repository also includes platform launchers:
 
-```powershell
-Qypha-desktop
-```
+- `Install Qypha for macOS.command`
+- `Install Qypha for Linux.desktop`
+- `Install Qypha for Linux.sh`
+- `Install Qypha for Windows.cmd`
+- `Install Qypha for Windows.ps1`
 
-CLI launch:
+## Multi-Agent Reminder
 
-```powershell
-Qypha launch
-```
+If you run multiple agents on the same computer, each agent must use a different listen port.
 
-Direct launch from the repository root:
+Example:
 
-```powershell
-target\release\qypha.exe launch
-```
+- `agent_1` on `9090`
+- `agent_2` on `9091`
+- `agent_3` on `9092`
 
-Desktop development mode:
-
-```powershell
-cd "C:\path\to\qypha\apps\qypha-desktop"
-npm run tauri:dev
-```
-
-Important:
-
-- run `npm run tauri:dev` inside `apps\qypha-desktop`, not from the repository root
-- the command is `tauri:dev`, not `tauiri:dev`
-- if `Qypha-desktop` is not recognized immediately after setup, close and reopen the terminal once
-
-Uninstall app and build outputs without deleting the repository:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -Uninstall
-```
-
-## Optional Setup Modes
-
-Install toolchains and build outputs without installing the desktop app:
-
-- macOS / Linux:
-  `./setup.sh --skip-desktop-install`
-- Windows:
-  `powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -SkipDesktopInstall`
-
-Skip the desktop UI entirely:
-
-- macOS / Linux:
-  `./setup.sh --skip-desktop`
-- Windows:
-  `powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1 -SkipDesktop`
+This only applies to agents running on the same machine.
 
 ## Common CLI Commands
 
-Destroy a single registered local agent:
+Launch the CLI:
+
+```bash
+Qypha launch
+```
+
+Destroy a single local agent:
 
 ```bash
 Qypha destroy --name agent1 --force
 ```
 
-Send an E2EE file to a direct peer:
+Destroy all local agent data:
 
-```text
-/transfer <file_path> <peer>
+```bash
+Qypha destroy-all --force
 ```
 
-`<peer>` is the peer number shown in `/peers`.
-
-Send a file to a mailbox group:
+Send a direct encrypted file:
 
 ```text
-/transfer_g <group_id> <file_path>
+/transfer ./example.zip 1
 ```
 
-## Project Layout
+Send a file to a group mailbox:
 
 ```text
-qypha/
-├── Cargo.toml              # Rust workspace and dependencies
-├── build.rs                # Protobuf build integration
-├── proto/
-│   └── agent_message.proto # Agent message schema
-├── src/
-│   ├── main.rs             # CLI entry point
-│   ├── agent/              # Agent core
-│   │   ├── init.rs         # First-run setup, keys, identity
-│   │   ├── daemon.rs       # Main runtime loop
-│   │   └── status.rs       # Status output
-│   ├── crypto/             # Cryptographic layer
-│   │   ├── identity.rs     # Ed25519 keys, DID generation
-│   │   ├── signing.rs      # Signing and verification
-│   │   ├── encryption.rs   # E2EE and artifact encryption
-│   │   └── keystore.rs     # Secure key storage
-│   ├── network/            # Networking layer
-│   │   ├── node.rs         # Swarm and transport setup
-│   │   ├── protocol.rs     # Application protocol
-│   │   └── discovery.rs    # Peer discovery
-│   ├── artifact/           # File transfer pipeline
-│   │   ├── transfer.rs     # Pack -> encrypt -> sign -> verify -> unpack
-│   │   ├── manifest.rs     # Artifact metadata
-│   │   └── store.rs        # Encrypted file storage
-│   ├── shadow/             # Shadow / privacy mode logic
-│   ├── control_plane/      # Policy and audit logic
-│   ├── os_adapter/         # Shell and filesystem control
-│   ├── tools/              # Tool registry
-│   └── config/             # Configuration layer
-├── tests/                  # Integration tests
-├── docs/                   # Project documentation
-├── embedded_runtime/       # Embedded AI runtime and bundled MCP bootstrap
-└── scripts/                # Helper scripts
-```
-
-## Architecture Summary
-
-```text
-[Agent A]                     [Agent B]
-   |                              |
-   |- Ed25519 identity            |- Ed25519 identity
-   |- X25519 + Kyber-1024         |- X25519 + Kyber-1024
-   |  hybrid bootstrap keys       |  hybrid bootstrap keys
-   |- DID: did:nxf:...            |- DID: did:nxf:...
-   |                              |
-   +----- secure transport + signed bootstrap + ratcheted E2EE chat ----+
-                                   |
-            direct chat, artifact transfer, DID-first contact, mailbox relay
+/transfer_g g1 ./example.zip
 ```
 
 ## Development
 
-Run tests:
+Run Rust tests:
 
 ```bash
 cargo test
-```
-
-Lint:
-
-```bash
-cargo clippy --all
 ```
 
 Format:
@@ -330,17 +147,43 @@ Format:
 cargo fmt
 ```
 
-Run with debug logging:
+Lint:
 
 ```bash
-RUST_LOG=qypha=debug cargo run -- start
+cargo clippy --all-targets --all-features
 ```
 
-## Additional Runtime Notes
+Run the desktop app in development mode:
 
-Embedded runtime root and runtime-specific notes:
+```bash
+cd apps/qypha-desktop
+npm install
+npm run tauri:dev
+```
 
-- [embedded_runtime/README.md](embedded_runtime/README.md)
+## Project Layout
+
+```text
+Qypha/
+├── src/                  # Core Rust networking, crypto, daemon, transport, transfer logic
+├── apps/qypha-desktop/   # Tauri + React desktop application
+├── embedded_runtime/     # Embedded OpenClaw-based AI runtime and bundled tooling
+├── proto/                # Protobuf schemas
+├── scripts/              # Helper scripts
+├── whitepaper.md         # Architecture and protocol document
+├── Cargo.toml            # Rust workspace manifest
+├── setup.sh              # macOS/Linux setup
+└── setup_windows.ps1     # Windows setup
+```
+
+## Additional Notes
+
+Some generated runtime payloads are intentionally installed during setup rather than stored in Git. If they are removed later, running setup again restores them.
+
+For more detail:
+
+- [Whitepaper](./whitepaper.md)
+- [Embedded Runtime Notes](./embedded_runtime/README.md)
 
 ## License
 
