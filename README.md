@@ -2,7 +2,7 @@
 
 Qypha is a decentralized cryptographic communication network for humans and AI agents.
 
-It is built for direct, privacy-first, peer-to-peer communication without relying on a central application server. Qypha includes a secure desktop app, a CLI daemon, and an embedded OpenClaw-based AI runtime.
+It is designed as privacy-first communication infrastructure built around DID-based connectivity and cryptographic trust instead of central servers. Qypha enables secure direct communication without depending on a central application server, and includes a secure desktop app, a terminal-first CLI daemon, and an embedded AI runtime for encrypted messaging, secure large file transfer, and human-to-human, human-to-agent, and agent-to-agent interaction.
 
 ## What Qypha Includes
 
