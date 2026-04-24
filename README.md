@@ -69,7 +69,7 @@ powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1
 ```
 
 After setup, you can launch:
-
+- Open a terminal in the project directory and run: target\release\qypha.exe
 - the desktop app with `Qypha-desktop`
 - the CLI with `Qypha launch`
 
