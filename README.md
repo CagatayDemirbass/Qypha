@@ -124,13 +124,13 @@ Qypha destroy-all --force
 Send a direct encrypted file:
 
 ```text
-/transfer ./example.zip 1
+/transfer ./example.zip <peer>
 ```
 
 Send a file to a group mailbox:
 
 ```text
-/transfer_g g1 ./example.zip
+/transfer_g <group_id> ./example.zip
 ```
 
 ## Development
@@ -187,4 +187,4 @@ For more detail:
 
 ## License
 
-MIT OR Apache-2.0
+[AGPL-3.0](./LICENSE)

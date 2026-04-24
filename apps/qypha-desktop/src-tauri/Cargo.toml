@@ -3,6 +3,8 @@ name = "qypha-desktop"
 version = "0.1.0"
 edition = "2021"
 description = "Qypha desktop shell (Tauri 2)"
+license = "AGPL-3.0-only"
+repository = "https://github.com/CagatayDemirbass/Qypha"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
