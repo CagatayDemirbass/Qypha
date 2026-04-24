@@ -1,116 +1,108 @@
-# Qypha Desktop (Tauri 2)
+# Qypha Desktop
 
-Cross-platform desktop shell for Qypha with security-first defaults.
+Qypha Desktop is the Tauri + React desktop interface for Qypha.
 
-## Prerequisites
+It provides a local desktop shell for:
 
-- Rust stable (`rustup`)
-- Node.js 22.16+
-- Platform toolchain:
-  - macOS: Xcode Command Line Tools
-  - Windows: MSVC Build Tools + WebView2 runtime
-  - Linux: `webkit2gtk`, `libayatana-appindicator` (or distro equivalents)
+- agent creation and launch
+- direct messaging and group conversations
+- peer management and invite flows
+- file transfer controls and approval flows
+- runtime logs, status, and transfer visibility
 
-## One-command repo setup
+The desktop app is intentionally thin. Core cryptography, transport logic, agent runtime behavior, Tor/internet networking, and transfer protocol logic live in the Rust backend in the main repository.
 
-From the repository root:
+## Repository Context
 
-macOS:
+This folder contains the desktop UI only.
 
-```bash
-chmod +x ./setup.sh
-./setup.sh
-```
+- frontend: `apps/qypha-desktop/src`
+- Tauri backend: `apps/qypha-desktop/src-tauri`
+- main project README: [../../README.md](../../README.md)
 
-Linux:
+If you want the normal end-user setup flow, use the setup instructions from the root project README instead of this file.
 
-```bash
-chmod +x ./setup.sh
-./setup.sh
-```
+## Requirements
 
-Windows (run PowerShell as Administrator):
+- Node.js 22+
+- Rust stable
+- Tauri 2 prerequisites for your platform
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\setup_windows.ps1
-```
+Platform notes:
 
-By default this setup flow also:
-- builds the packaged Tauri desktop app
-- installs it as a normal double-clickable application
-- creates a Desktop shortcut
-- adds a `Qypha-desktop` terminal launcher
+- macOS: Xcode Command Line Tools
+- Windows: MSVC Build Tools and WebView2 runtime
+- Linux: the usual Tauri/WebKitGTK system packages for your distro
 
-What users do after setup:
-- macOS: open `Qypha.app` from Desktop or Applications, or run `Qypha-desktop`
-- Linux: open `Qypha.desktop` from Desktop or the app menu, or run `Qypha-desktop`
-- Windows: open the Desktop shortcut or Start Menu app, or run `Qypha-desktop`
+## Install Dependencies
 
-## Install
+From this folder:
 
 ```bash
-cd apps/qypha-desktop
-npm ci
+npm install
 ```
 
-## Run (desktop)
+## Development
 
-```bash
-Qypha-desktop
-```
-
-For local UI development:
+Run the full desktop app in development mode:
 
 ```bash
 npm run tauri:dev
 ```
 
-## Runtime Flows (Now Wired)
-
-- Agent setup is available in-app:
-  - `Create Agent` runs `Qypha init`
-  - explicit `Listen Port` is supported (e.g. 9090/9091)
-- `Start`: launches `Qypha start` in headless control mode.
-- `Ghost + Tor`: app starts via non-interactive `Qypha launch --name ... --transport tor --log-mode ghost --port ...`
-- `Stop`: sends `/quit`, then force-stops if needed.
-- `/peers`, `/invite`, `/invite_g` buttons send real runtime commands.
-- Peer selection opens a dedicated DM conversation per connection.
-- Conversation model:
-  - `Group Chat` tab sends with `/send <message>`
-  - `DM` tabs send with `/sendto <did> <message>`
-- `Transfer` uses `/transfer <path> <did>`.
-- Approval controls use:
-  - `/accept <did>`
-  - `/reject <did>`
-  - `/accept_always <did>`
-  - `/accept_ask <did>`
-- `Connect` box sends `/connect <code>`.
-
-## Run (web-only UI)
+Run the web UI only:
 
 ```bash
 npm run dev:web
 ```
 
-## Build packages
+Preview the built web UI:
+
+```bash
+npm run preview
+```
+
+## Build
+
+Build the desktop app:
 
 ```bash
 npm run tauri:build
 ```
 
+Build the web frontend only:
+
+```bash
+npm run build:web
+```
+
+## Test
+
+Run frontend tests:
+
+```bash
+npm test
+```
+
+## What The Desktop App Does
+
+The desktop app can:
+
+- create and manage local agents
+- start and stop local runtimes
+- send runtime commands through the UI
+- display peer state, conversations, and transfer state
+- surface direct and group communication flows
+- expose transfer approvals and file selection flows
+
+In practice, this UI maps to the same runtime and command surface used by the CLI, but presents it in a desktop workflow.
+
 ## Security Notes
 
-- Tauri permissions are deny-by-default via capability file.
-- CSP is strict and only allows app-local scripts/styles + local dev url.
-- This shell is intentionally thin: crypto/transport policy remains in Rust core.
-- Ghost mode policy target: ephemeral keys, no persistent chat logs, secure temp wipe.
-- In-app runtime start supports `safe`; `ghost` remains launch-only.
+- Tauri permissions are capability-based and deny-by-default
+- the desktop shell does not replace the Rust security model
+- transport, crypto, identity, transfer integrity, and policy enforcement remain in the core backend
 
-## Test Checklist
+## License
 
-1. Use a valid config path and passphrase, then click `Start`.
-2. Confirm status shows `running=true` and a PID.
-3. Click `/peers`; verify peer list and logs update.
-4. Select a peer and send a message.
-5. Send a transfer and test accept/reject controls.
-6. Click `Stop`; verify runtime exits cleanly.
+[AGPL-3.0](../../LICENSE)

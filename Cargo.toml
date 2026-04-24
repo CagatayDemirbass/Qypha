@@ -2,7 +2,7 @@
 name = "qypha"
 version = "0.1.0"
 edition = "2021"
-authors = ["Qypha Team"]
+authors = ["Cagatay Demirbas"]
 description = "Enterprise-grade cryptographic agent network with E2EE, Shadow Mode, and artifact transfer"
 license = "AGPL-3.0-only"
 repository = "https://github.com/CagatayDemirbass/Qypha"

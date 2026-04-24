@@ -2,6 +2,7 @@
 name = "qypha-desktop"
 version = "0.1.0"
 edition = "2021"
+authors = ["Cagatay Demirbas"]
 description = "Qypha desktop shell (Tauri 2)"
 license = "AGPL-3.0-only"
 repository = "https://github.com/CagatayDemirbass/Qypha"
