@@ -1,6 +1,6 @@
 # Qypha Security and Privacy Whitepaper
 
-Last reviewed: April 19, 2026
+Last reviewed: April 24, 2026
 
 ## 1. Scope and Method
 
@@ -16,7 +16,7 @@ The guiding rules for this whitepaper are:
 The report covers:
 
 - agent identity, DID design, and key material
-- DID-first discovery and contact establishment
+- DID-first discovery, direct contact establishment, and what shared identifiers reveal
 - direct invite and group invite behavior
 - handshake authentication and message admission
 - direct 1:1 messaging and Double Ratchet behavior
@@ -52,6 +52,8 @@ At a high level:
 - direct file transfer is encrypted and signed before transport
 - large-file transfer adds chunk hashes, Merkle proofs, and resumable session state
 - DID-first remote contact works without local profile import by resolving a signed contact bundle over global discovery
+- a shared `did:qypha:...` is a short identity handle, not a self-contained route blob
+- minimal group invite tokens are intentionally decode-minimal and do not by themselves reveal mailbox endpoints or capability secrets
 - Safe mode keeps selected state on disk, but encrypts and reduces that state
 - Ghost mode avoids the daemon's normal persistence paths and performs aggressive best-effort cleanup on exit
 
@@ -189,6 +191,17 @@ The current DID-first path works as:
 
 This means local `did_profile.json` import is no longer required for ordinary DID-first onboarding.
 
+Operationally, this means a user can send a direct first-contact request starting from the shared DID alone, for example through `/connect did:qypha:...`, without first exchanging a route-bearing direct invite. The copied DID string itself is not a direct transport advertisement:
+
+- it is an identity handle derived from the Ed25519 fingerprint
+- it does not by itself reveal a direct IP transport address
+- it does not by itself reveal a Tor onion address
+- it does not by itself reveal mailbox capability secrets
+
+Any routable service details used later in the onboarding flow come from separately resolved and verified signed discovery data, not from the short DID string itself.
+
+This should still not be overstated as "zero metadata". The DID is still a stable identity handle and can still reveal that the same contact identity is being referenced across uses; the claim is narrower: the short DID alone is not a direct route dump.
+
 ### 5.2 Signed DID profile contents
 
 A `DidProfile` currently carries:
@@ -221,6 +234,8 @@ For public contact bundle discovery, Qypha:
 - rejects public iroh contact endpoints that contain direct or non-relay addresses
 
 As a result, DID-first public discovery over iroh is designed so that the public discovery endpoint does not publish direct IP transport addresses.
+
+In practical terms, someone who learns only the short DID and resolves the public iroh contact bundle should learn a relay-only discovery route rather than a raw direct IP transport advertisement.
 
 ### 5.4 Tor mailbox discovery
 
@@ -260,6 +275,8 @@ First-contact requests are not plaintext introductions. A contact request contai
 The contact request is then sealed inside a hybrid encrypted envelope for the recipient.
 
 This sealed contact request should be thought of as a pre-session onboarding object, not as an ordinary chat message. It exists before the direct ratchet session is established and uses the recipient's signed profile material to create a hybrid bootstrap envelope.
+
+This is the core of the DID-first contact story: the initiator does not need to decode a route-bearing invite code in order to begin contact. Qypha can resolve the signed DID profile, choose an allowed transport path for that profile, and deliver a sealed first-contact request directly from the DID-based identity flow.
 
 ### 5.7 Incoming-connect policy gate
 
@@ -312,6 +329,14 @@ For example:
 - LAN/TCP invites can expose TCP reachability if IP hiding is disabled
 - iroh direct invites can embed an iroh endpoint descriptor; in privacy-hardened Internet mode, relay-only endpoint exposure is preferred
 
+So the right interpretation of a standard direct invite is:
+
+- it is easy to share and quick to use
+- it is signed and tamper-evident
+- it is not designed to be metadata-minimal in every transport mode
+
+Decoding a standard direct invite can therefore reveal some route information, depending on how it was generated.
+
 ### 6.2 Minimal group invite token plus separate group bundle
 
 Group onboarding is stricter and more modular.
@@ -336,6 +361,17 @@ It does not embed:
 - content crypto state
 
 Those details live in a separate signed `GroupInviteBundle`, which can be resolved over the discovery plane.
+
+This matters for privacy semantics. A copied group invite token can be base64-decoded by whoever holds it, but the decoded token alone still does not reveal:
+
+- a mailbox endpoint URL or onion endpoint string
+- a mailbox namespace
+- mailbox capability material
+- group content secrets
+
+The richer onboarding details are intentionally moved into the separately resolved signed bundle.
+
+This again is not the same as saying "zero metadata". The minimal token still reveals fields such as group ID, issuer verifying key, creation/expiry timing, and invite identity, but it does not itself dump the mailbox route or the mailbox capability needed to use that route.
 
 ### 6.3 Group invite bundle contents
 
@@ -362,6 +398,8 @@ The correct public framing is:
 - direct peer invite: compact authenticated route-bearing invite
 - group invite: compact authenticated token plus separately resolved signed bundle
 - DID-first remote contact: short DID plus globally resolved signed contact bundle
+- short DID alone: identity handle, not a direct route advertisement
+- minimal group invite token alone: authenticated join token, not a mailbox endpoint dump
 
 ## 7. Application Request Authentication and Message Admission
 
@@ -746,7 +784,9 @@ A subtle but important distinction exists:
 - DID-first public discovery is relay-only by design
 - standard direct invites may still carry an iroh endpoint descriptor
 
-Therefore the whitepaper should not claim that every invite is metadata-free. The strongest privacy claims belong to DID-first bundle discovery and privacy-hardened relay-only Internet mode, not to every possible invite UX path.
+In the current iroh `/invite` implementation, the embedded endpoint descriptor is generated with direct IP hiding enabled, so the invite should not expose a raw direct IP transport address. However, it is still better described as relay-route metadata than as a fully metadata-free token.
+
+Therefore the whitepaper should not claim that every invite is metadata-free. The strongest privacy claims belong to DID-first bundle discovery, short DID-based contact initiation, minimal group invite tokens, and privacy-hardened relay-only Internet mode, not to every possible invite UX path.
 
 ### 12.5 Cover traffic and timing-analysis hardening
 
@@ -1073,8 +1113,9 @@ The most accurate public description of Qypha today is:
 
 - a decentralized cryptographic network for humans and AI agents
 - authenticated agent-to-agent messaging with ratcheted 1:1 E2EE
-- DID-first remote contact over signed bundle discovery
+- DID-first remote contact over signed bundle discovery, including direct `/connect did:qypha:...` onboarding
 - signed invite and mailbox capability model for onboarding and groups
+- short DIDs and minimal group invite tokens that do not by themselves expose ordinary direct IP-style reachability
 - encrypted artifact and chunked file transfer with integrity proofs
 - Safe mode for privacy-hardened encrypted persistence
 - Ghost mode for ephemeral daemon operation with aggressive best-effort cleanup
@@ -1086,5 +1127,3 @@ Avoid the following overclaims unless the implementation changes further:
 - "all AI memory is RAM-only in Ghost"
 - "all metadata is hidden in every transfer path"
 - "every path is post-quantum only under every runtime mode"
-
-
